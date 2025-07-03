@@ -1,0 +1,36 @@
+openapi: 3.0.0
+info:
+  title: NotifyAdmin
+  description: Lambda to send admin emails
+  version: 1.0.0
+
+paths:
+  /notify:
+    # ← Add a description here for the path item itself
+    description: "Endpoint to notify admin via SES"
+    post:
+      operationId: notifyAdmin
+      # (Optionally add a summary/description here too)
+      summary: "Send admin notification"
+      description: "Posts email, querytext, and agentResponse to SES for admin review"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - querytext
+                - agentResponse
+              properties:
+                email:
+                  type: string
+                  format: email
+                querytext:
+                  type: string
+                agentResponse:
+                  type: string
+      responses:
+        "200":
+          description: Notification sent

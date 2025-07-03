@@ -1,0 +1,52 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - echo "Installing AWS CDK CLI..."
+      - npm install -g aws-cdk
+      - echo "Changing into cdk_backend directory"
+      - cd cdk_backend
+      - echo "Installing npm dependencies"
+      - npm ci
+
+  pre_build:
+    commands:
+      - echo "Building TypeScript sources"
+      - 'echo "GitHub Owner is: $GITHUB_OWNER"'
+      - npm run build
+      - echo "Bootstrapping CDK (no approval)..."
+      - >-
+        cdk bootstrap --require-approval never
+        -c githubToken=$GITHUB_TOKEN
+        -c githubOwner=$GITHUB_OWNER
+        -c adminEmail=$ADMIN_EMAIL
+        -c route53EmailDomain=$ROUTE53_EMAIL_DOMAIN
+        -c githubRepo=$GITHUB_REPO || true
+
+  build:
+    commands:
+      - >-
+        if [ "$ACTION" = "destroy" ]; then
+          echo "Destroying all CDK stacks...";
+          cdk destroy --all --force \
+            -c githubToken=$GITHUB_TOKEN \
+            -c githubOwner=$GITHUB_OWNER \
+            -c adminEmail=$ADMIN_EMAIL \
+            -c route53EmailDomain=$ROUTE53_EMAIL_DOMAIN \
+            -c githubRepo=$GITHUB_REPO;
+        else
+          echo "Deploying all CDK stacks...";
+          cdk deploy --all --require-approval never \
+            -c githubToken=$GITHUB_TOKEN \
+            -c githubOwner=$GITHUB_OWNER \
+            -c adminEmail=$ADMIN_EMAIL \
+            -c route53EmailDomain=$ROUTE53_EMAIL_DOMAIN \
+            -c githubRepo=$GITHUB_REPO;
+        fi
+
+  post_build:
+    commands:
+      - 'echo "CDK $ACTION complete."'
