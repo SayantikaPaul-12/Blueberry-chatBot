@@ -135,8 +135,8 @@ chmod +x deploy.sh
 
 1. Clone the repository (Make sure to fork the repository first):
 ```bash
-git clone https://github.com/<YOUR-USERNAME>/osu-blueberry
-cd osu-blueberry/
+git clone https://github.com/<YOUR-USERNAME>/Blueberry-chatBot
+cd Blueberry-chatBot/
 ```
 
 2. **Set Up Your Environment**:
