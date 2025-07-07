@@ -21,7 +21,7 @@ import * as events   from 'aws-cdk-lib/aws-events';
 import * as targets  from 'aws-cdk-lib/aws-events-targets';
 import { Topic } from '@cdklabs/generative-ai-cdk-constructs/lib/cdk-lib/bedrock/guardrails/guardrail-filters';
 
-export class BlueberryStackMain extends cdk.Stack {
+export class BlueberryStackLatest extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
@@ -132,7 +132,7 @@ export class BlueberryStackMain extends cdk.Stack {
 
 
       const guardrail = new bedrock.Guardrail(this, 'bedrockGuardrails-blueberry', {
-        name: 'ChatbotGuardrails-Blueberries',
+        name: 'ChatbotGuardrails-Blueberry',
         blockedOutputsMessaging: 'This topic is irrelevant, not related to blueberries or agriculture.',
       });
       
@@ -337,7 +337,7 @@ export class BlueberryStackMain extends cdk.Stack {
 
     // Create SES Receipt Rule Set
     const sesRuleSet = new ses.ReceiptRuleSet(this, 'blueberry-email-receipt-rule-set', {
-      receiptRuleSetName: 'blueberry-email-processing-rule-set',
+      receiptRuleSetName: 'blueberry-email-processing-rules',
     });
 
     const blueberryEmail = `blueberrybot@${route53EmailDomain}`;
