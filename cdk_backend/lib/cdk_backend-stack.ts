@@ -621,7 +621,7 @@ export class BlueberryStackLatest extends cdk.Stack {
     });
 
 
-    const amplifyApp = new amplify.App(this, 'ChatbotUIBlueberry', {
+    const amplifyApp = new amplify.App(this, 'ChatbotUIBlueberryLatest', {
       sourceCodeProvider: new amplify.GitHubSourceCodeProvider({
         owner: githubOwner,
         repository: githubRepo,
